@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, SyntheticEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { Brand } from "@prisma/client";
+import axios from "axios";
 
 const AddProduct = ({ brands }: { brands: Brand[] }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +11,24 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
 
+  const router = useRouter();
+
   const handleModal = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    await axios.post("/api/products", {
+      title: title,
+      price: Number(price),
+      brandId: Number(brand),
+    });
+    setTitle("");
+    setPrice("");
+    setBrand("");
+    router.refresh();
+    setIsOpen(false);
   };
 
   return (
@@ -24,7 +42,7 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
           <h3 className="mb-5 text-lg font-bold text-center">
             Add New Product
           </h3>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="w-full form-control">
               <label className="font-bold label">Product Name</label>
               <input
