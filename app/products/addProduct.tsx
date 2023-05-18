@@ -29,6 +29,8 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
               <label className="font-bold label">Product Name</label>
               <input
                 type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="input input-bordered"
                 placeholder="Product Name"
               />
@@ -37,13 +39,19 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
               <label className="font-bold label">Price</label>
               <input
                 type="text"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 className="input input-bordered"
                 placeholder="Price"
               />
             </div>
             <div className="w-full form-control">
               <label className="font-bold label">Brand</label>
-              <select className="select select-border">
+              <select
+                className="select select-border"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+              >
                 <option disabled>Select a Brand</option>
                 {brands.map((brand) => (
                   <option value={brand.Id} key={brand.Id}>
