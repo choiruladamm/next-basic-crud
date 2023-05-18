@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { Brand } from "@prisma/client";
 
-const AddProduct = () => {
+const AddProduct = ({ brands }: { brands: Brand[] }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [brand, setBrand] = useState("");
 
   const handleModal = () => {
     setIsOpen(!isOpen);
@@ -15,9 +19,11 @@ const AddProduct = () => {
         Add New
       </button>
 
-      <div className="modal">
+      <div className={isOpen ? "modal modal-open" : "modal"}>
         <div className="modal-box">
-          <h3 className="text-lg font-bold">Add New Product</h3>
+          <h3 className="mb-5 text-lg font-bold text-center">
+            Add New Product
+          </h3>
           <form>
             <div className="w-full form-control">
               <label className="font-bold label">Product Name</label>
@@ -38,17 +44,19 @@ const AddProduct = () => {
             <div className="w-full form-control">
               <label className="font-bold label">Brand</label>
               <select className="select select-border">
-                <option value="" disabled>
-                  Select a Brand
-                </option>
-                <option value="">Brand 1</option>
+                <option disabled>Select a Brand</option>
+                {brands.map((brand) => (
+                  <option value={brand.Id} key={brand.Id}>
+                    {brand.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="modal-action">
-              <button type="button" className="btn">
+              <button type="button" className="btn" onClick={handleModal}>
                 Close
               </button>
-              <button type="submit" className="btn-primary">
+              <button type="button" className="btn btn-primary">
                 Save
               </button>
             </div>

@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import AddProduct from "./addProduct";
 const prisma = new PrismaClient();
 
-const getProduct = async () => {
+const getProducts = async () => {
   const res = await prisma.product.findMany({
     select: {
       Id: true,
@@ -14,11 +15,20 @@ const getProduct = async () => {
   return res;
 };
 
+const getBrands = async () => {
+  const res = await prisma.brand.findMany();
+  return res;
+};
+
 const Product = async () => {
-  const products = await getProduct();
+  const [products, brands] = await Promise.all([getProducts(), getBrands()]);
 
   return (
     <div>
+      <div className="mb-2">
+        <AddProduct brands={brands} />
+      </div>
+
       <table className="table w-full">
         <thead>
           <tr>
