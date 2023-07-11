@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import AddProduct from "./addProduct";
+import AddProduct from "./AddProduct";
 const prisma = new PrismaClient();
 
 const getProducts = async () => {
